@@ -1,0 +1,12 @@
+body
+{
+    background-color: aquamarine;
+    margin: 0;
+}
+.pageLine
+{
+    background-color: aqua;
+    padding: 10px;
+    height: 3rem;
+}
+
