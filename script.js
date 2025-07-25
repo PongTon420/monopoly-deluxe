@@ -5,11 +5,12 @@ const supabaseUrl = 'https://ydembgafgkmhpnydqqyw.supabase.co';
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZW1iZ2FmZ2ttaHBueWRxcXl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMzNjQwNTIsImV4cCI6MjA2ODk0MDA1Mn0.QnTKCsDAgM_AhtQGzxfN88qGyyMBKhk5-hmBnqdovoc";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-//-----------------Ket noi database o tren, ke no di wee-------------------------
+//-----------------Ket noi database o tren, ke no di wee-----------------//
 
 const nameInput = document.getElementById('changeName');
 const changeNameButton = document.getElementById('changeNameBttn');
 
+let showScreenId = 'roomSelection';
 let playerId = localStorage.getItem('player_id');
 let playerName = localStorage.getItem('player_name');
 
@@ -76,6 +77,14 @@ async function changeName() {
     console.log("Successfully changed name to:", newName);
 };
 
+function showScreen(id) {
+    document.getElementById('roomSelection').style.display = 'none';
+    document.getElementById('waitingRoom').style.display = 'none';
+    document.getElementById('gameBoard').style.display = 'none';
+    document.getElementById(id).style.display = 'block';
+};
+
 //run shit here:
 initPlayer();
+showScreen(showScreenId);
 changeNameButton.addEventListener('click', changeName);
