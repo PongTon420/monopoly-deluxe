@@ -1,2 +1,2 @@
-# monopoly--deluxe
-pangsailakho
+# monopoly-deluxe
+Kore ga Monopoly Deluxe da.
