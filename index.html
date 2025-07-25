@@ -12,19 +12,25 @@
 </head>
 <body>
     <header>
-        <div class="pageLine">
-        <div class="playerName">
-            <label id="playerNameLabel"></label>
-            <br>
-            <input id="changeName" type="text" style="margin-top: 5px;">
-            <button id="changeNameBttn" type="button">Change</button>
-        </div>
+        <h1 style="text-align: center;">MONOPOLY DELUXE</h1>
+        <div class="navBar">
+            <div class="navItem playerNameDiv">
+                <label id="playerNameLabel" class="topLabel"></label>
+            </div>
+            <div class="navItem sameLine">
+                <label for="changeName" class="topLabel">Change name here:</label>
+                <input 
+                id="changeName" 
+                type="text" 
+                placeholder="change name here!"
+                >
+                <button id="changeNameBttn" type="button">Change</button>
+            </div>
         </div>
     </header>
 
     <main>
         <div id="roomSelection">
-            <h1 style="text-align: center;">MONOPOLY DELUXE</h1>
             <h2 style="text-align: center;">Room Selection</h2>
         </div>
         <div id="waitingRoom">

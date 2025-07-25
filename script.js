@@ -50,13 +50,14 @@ async function initPlayer()
         await createNewGuest();
     }
     const playerNameLabel = document.getElementById('playerNameLabel');
-    playerNameLabel.textContent = `Player: ${playerName}`;
+    playerNameLabel.innerHTML = `Player's name: <span class="player-namejs">${playerName}</span>`;
 };
 
 async function changeName() {
     console.log("change button pressed");
     console.log("playerId:", playerId);
-
+    changeNameButton.disabled = true;
+    nameInput.disabled = true;
     let newName = nameInput.value.trim();
     if (newName === "")
         newName = "blank";
@@ -70,10 +71,12 @@ async function changeName() {
         console.error('Failed to update name:', error);
 
     const playerNameLabel = document.getElementById('playerNameLabel');
-    playerNameLabel.textContent = `Player: ${newName}`;
+    playerNameLabel.innerHTML = `<span class="label-text">Player's name:</span> <span class="player-namejs">${newName}</span>`;
     localStorage.setItem('player_name', newName);
     playerName = newName;
-
+    nameInput.value = null;
+    changeNameButton.disabled = false;
+    nameInput.disabled = false;
     console.log("Successfully changed name to:", newName);
 };
 

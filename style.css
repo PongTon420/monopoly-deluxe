@@ -1,12 +1,81 @@
+@font-face {
+    font-family: "TitleFont";
+    src: url('./fonts/Monopoly\ Regular.ttf');
+}
+@font-face {
+    font-family: "coolName";
+    src: url('./fonts/YulongItalic-V4ER0.ttf');
+}
+
 body
 {
     background-color: aquamarine;
     margin: 0;
 }
-.pageLine
+button
+{
+    background-color: lightgoldenrodyellow;
+    border-radius: 3px;
+    border: 2px yellow;
+    height: 1.5rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+input:disabled
+{
+    background-color: lightyellow;
+    color: black;
+    border: 1px solid orange;
+    opacity: 1;
+}
+h1
+{
+    font-size: 3rem;
+    margin: 0 auto;
+    line-height: 4rem;
+    height: 4rem;
+    text-align: center;
+    background-color: red;
+    color: white;
+    font-family: TitleFont, sans-serif;
+}
+.navBar
 {
     background-color: aqua;
+    border-bottom: 1px solid blue;
+    display: flex;
+    justify-content: center;
     padding: 10px;
-    height: 3rem;
 }
-
+.navItem
+{
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.topLabel
+{
+    font-size: 20px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.sameLine
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#changeName
+{
+    border: 1px solid black; 
+    padding-left: 10px; 
+    border-radius: 3px;
+    height: 1.3rem;
+    vertical-align: middle
+}
+.player-namejs
+{
+    font-family: coolName, sans-serif;
+    font-size: 25px;
+    background-color: wheat;
+    padding: 2px 10px 2px 3px;
+    margin-left: 10px;
+}
