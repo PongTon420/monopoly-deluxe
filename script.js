@@ -9,10 +9,32 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const nameInput = document.getElementById('changeName');
 const changeNameButton = document.getElementById('changeNameBttn');
+const playerNameLabel = document.getElementById('playerNameLabel');
 
 let showScreenId = 'roomSelection';
 let playerId = localStorage.getItem('player_id');
 let playerName = localStorage.getItem('player_name');
+
+//Dat ten bien lai theo ten thanh pho
+const start = 0;
+const land1 = 1;
+const land2 = 2;
+const land3 = 3;
+const land4 = 4;
+const land5 = 5;
+const land6 = 6;
+const land7 = 7;
+const land8 = 8;
+const land9 = 9;
+const land10 = 10;
+const land11 = 11;
+const land12 = 12;
+const land13 = 13;
+const land14 = 14;
+const land15 = 15;
+const land16 = 16;
+//...-> land39
+
 
 //function:
 async function createNewGuest() 
@@ -20,24 +42,23 @@ async function createNewGuest()
     const Pang = ["PangDia", "PangSai", "PangPhui"];
     const randomNumber09 = Math.floor(Math.random() * 10); //0-9
     const randomTag = Pang[Math.floor(Math.random() * Pang.length)];
-    const name = `Guest${randomTag}${randomNumber09}`;
+    const defaultName = `Guest${randomTag}${randomNumber09}`;
     const id = crypto.randomUUID();
 
     const { error } = await supabase
     .from('Players')
-    .insert({ player_id: id, player_name: name });
+    .insert({ player_id: id, player_name: defaultName });
 
-    if (error) //alert error thui DX
+    if (error) //log error thui DX
     {
         console.error('Error creating player:', error);
-        alert('Failed to create player.');
         return;
     }
 
     localStorage.setItem('player_id', id);
-    localStorage.setItem('player_name', name);
+    localStorage.setItem('player_name', defaultName);
     playerId = id;
-    playerName = name;
+    playerName = defaultName;
 };
 
 async function initPlayer() 
@@ -49,20 +70,18 @@ async function initPlayer()
     {
         await createNewGuest();
     }
-    const playerNameLabel = document.getElementById('playerNameLabel');
     playerNameLabel.innerHTML = `Player's name: <span class="player-namejs">${playerName}</span>`;
 };
 
 async function changeName() {
     console.log("change button pressed");
-    console.log("playerId:", playerId);
     changeNameButton.disabled = true;
     nameInput.disabled = true;
     let newName = nameInput.value.trim();
     if (newName === "")
-        newName = "blank";
-
-    const { data, error } = await supabase
+        newName = playerName;
+    
+    const { error } = await supabase
     .from('Players')
     .update({ player_name: newName })
     .eq('player_id', playerId)
@@ -70,7 +89,7 @@ async function changeName() {
     if (error)
         console.error('Failed to update name:', error);
 
-    const playerNameLabel = document.getElementById('playerNameLabel');
+    
     playerNameLabel.innerHTML = `<span class="label-text">Player's name:</span> <span class="player-namejs">${newName}</span>`;
     localStorage.setItem('player_name', newName);
     playerName = newName;
