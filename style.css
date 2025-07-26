@@ -20,11 +20,10 @@ body
 }
 button
 {
+    padding: 0.1rem;
     background-color: rgb(255, 255, 141);
     border-radius: 3px;
     border: 3px solid rgb(255, 209, 123);
-    height: 3dvh;
-    width: 3.4rem;
     text-align: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -90,10 +89,6 @@ input:disabled
     color: brown;
 }
 
-#wrapHeader
-{
-    padding-bottom: 1rem;
-}
 #titleh1
 {
     margin-bottom: 0;
@@ -109,6 +104,7 @@ input:disabled
 #changeName
 {
     border: 1px solid black; 
+    padding: 0.5rem;
     padding-left: 10px;
     border-radius: 3px;
     height: 2.6dvh;
@@ -132,7 +128,6 @@ input:disabled
     #wrapHeader
     {
         width: 200%;
-            padding: 1rem;
     }
     #wrapMain
     {
@@ -144,8 +139,8 @@ input:disabled
 {
     #wrapHeader
     {
-        width: 220%;
-            padding: 1rem;
+        width: 200%;
+
     }
     #wrapMain
     {
