@@ -1,7 +1,12 @@
-import { supabase } from "./supabaseClient.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabaseUrl = "https://ydembgafgkmhpnydqqyw.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZW1iZ2FmZ2ttaHBueWRxcXl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMzNjQwNTIsImV4cCI6MjA2ODk0MDA1Mn0.QnTKCsDAgM_AhtQGzxfN88qGyyMBKhk5-hmBnqdovoc";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const nameInput = document.getElementById('changeName');
 const changeNameButton = document.getElementById('changeNameBttn');
+const resetButton = document.getElementById('resetButton')
 const playerNameLabel = document.getElementById('playerNameLabel');
 
 let showScreenId = 'roomSelection';
@@ -10,7 +15,7 @@ let playerName = localStorage.getItem('player_name');
 
 async function createNewGuest()
 {
-        const Pang = ["PangDia", "PangSai", "PangPhui"];
+    const Pang = ["PangDia", "PangSai", "PangPhui"];
     const randomNumber09 = Math.floor(Math.random() * 10); //0-9
     const randomTag = Pang[Math.floor(Math.random() * Pang.length)];
     const defaultName = `Guest${randomTag}${randomNumber09}`;
@@ -46,7 +51,6 @@ async function initPlayer()
 async function changeName() 
 {
     console.log("change button pressed");
-
     changeNameButton.disabled = true;
     nameInput.disabled = true;
 
@@ -81,8 +85,28 @@ function showScreen(id) {
     document.getElementById(id).style.display = 'block';
 };
 
+async function idExist() 
+{
+    playerId = localStorage.getItem('player_id');
+    const { data, error } = await supabase
+    .from('Players')
+    .select('*')
+    .eq('player_id', playerId);
+    if (error) {
+    console.error("Supabase error:", error);
+    } else if (data.length > 0) {
+    console.log("Player exists:", data[0]);
+    } else {
+    console.log("Player not found.");
+    const OOSsmall = document.getElementById('outOfSync');
+    OOSsmall.textContent = `You are out of sync! Please press Reset button`;
+    resetButton.disabled = false;
+    }
+}
+
 //run shit here:
 initPlayer();
+idExist();
 showScreen(showScreenId);
 
 nameInput.addEventListener('input', () => 
@@ -91,7 +115,8 @@ nameInput.addEventListener('input', () =>
 });
 
 changeNameButton.addEventListener('click', changeName);
-
+resetButton.addEventListener('click', () => {localStorage.clear(); 
+    location.reload(); console.log("clear");});
 
 //Room Selection section:
 
