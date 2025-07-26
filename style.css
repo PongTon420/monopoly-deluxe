@@ -47,6 +47,7 @@ input:disabled
 .navBar
 {
     background-color: aqua;
+    border-top: 1px solid blue;
     border-bottom: 1px solid blue;
     display: flex;
     justify-content: center;
@@ -88,12 +89,53 @@ input:disabled
 {
     font-family: TitleFont, sans-serif;
     text-align: center;
-    margin: 15px 0;
+    margin: 15px;
+    margin-bottom: -20px;
     font-size: 2.5rem;
     -webkit-text-stroke: 0.5px red;
     color: brown;
 }
+.selectRoom
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;              
+    flex-wrap: wrap;        
+    width: 50rem;
+    margin: 2rem auto 1rem auto;
+    border: 1px solid blue;
+    background-color: aqua;
+    padding: 1rem;
+}
+.roomHeader
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #aaa;
+}
 
+#roomList
+{
+    display: block;
+    width: 50rem;
+    height: 20rem;
+    border: 4px solid black;
+    margin: 1.5rem auto 0 auto;
+    padding: 1rem;
+    background-color: lightgoldenrodyellow;
+    overflow-y: auto;  
+}
+#roomCodeInput
+{
+    border: 1px solid black; 
+    padding: 0.6rem;
+    padding-left: 10px;
+    border-radius: 3px;
+    height: 2.6dvh;
+    vertical-align: middle;
+}
 #titleh1
 {
     margin-bottom: 0;
@@ -114,21 +156,15 @@ input:disabled
     padding-left: 10px;
     border-radius: 3px;
     height: 2.6dvh;
-    vertical-align: middle
-}
-#roomSelectionCanvas
-{
-    width: min(100%, 1000px);
-    height: min(100%, 700px)    ;
-    display: block;
-    border: 5px solid black;
+    vertical-align: middle;
+    margin-left: 8px;
+    margin-right: 4px;
 }
 #waitingRoomCanvas
 {
     width: min(100%, 1000px);
     height: min(100%, 700px);
     display: block;
-    margin-top: 3rem;
     border: 5px solid black;
 }
 #gameBoardCanvas

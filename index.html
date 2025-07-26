@@ -25,7 +25,7 @@
                 <input 
                 id="changeName" 
                 type="text" 
-                placeholder="change name here!"
+                placeholder="Change name here!"
                 >
                 <button id="changeNameBttn" type="button" disabled>Change</button>
             </div>
@@ -37,11 +37,22 @@
     <div id="wrapMain">
         <div id="roomSelection">
             <h2 class="sectionTitle">Room Selection</h2>
-            <div class="canvasContainer"> 
-                <canvas id="roomSelectionCanvas"></canvas>
+            <div class="selectRoom"> 
+                <button id="createRoomBtn">Create Room</button>
+                <input type="text" id="roomCodeInput" placeholder="Enter Room Code" />
+                <button id="joinRoomBtn">Join Room</button>
+                <button id="refreshBtn">Refresh</button>
+            </div>
+            <div id="roomList">
+                  <div class="roomHeader">
+                    <div class="column">Room Name</div>
+                    <div class="column">Players</div>
+                    <div class="column">Current Turn</div>
+                </div>
             </div>
         </div>
         <div id="waitingRoom">
+            <h2 class="sectionTitle">Waiting Room</h2>
             <div class="canvasContainer">
                 <canvas id="waitingRoomCanvas"></canvas>    
             </div>
