@@ -11,7 +11,7 @@ const nameInput = document.getElementById('changeName');
 const changeNameButton = document.getElementById('changeNameBttn');
 const playerNameLabel = document.getElementById('playerNameLabel');
 
-let showScreenId = 'roomSelection';
+let showScreenId = 'waitingRoom';
 let playerId = localStorage.getItem('player_id');
 let playerName = localStorage.getItem('player_name');
 
@@ -121,8 +121,6 @@ function SelectRoom()
 {
     const roomSelectionCanvas = document.getElementById('roomSelectionCanvas');
     const ctx = roomSelectionCanvas.getContext("2d");
-    roomSelectionCanvas.width = 700;
-    roomSelectionCanvas.height = 500;
 }
 
 //run shit here:
