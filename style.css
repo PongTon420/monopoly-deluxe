@@ -90,8 +90,13 @@ input:disabled
     color: brown;
 }
 
+#wrapHeader
+{
+    padding-bottom: 1rem;
+}
 #titleh1
 {
+    margin-bottom: 0;
     font-size: 3.5rem;
     line-height: 4rem;
     height: 8dvh;
@@ -99,6 +104,7 @@ input:disabled
     background-color: red;
     color: white;
     font-family: TitleFont, sans-serif;
+    padding-bottom: 4rem;
 }
 #changeName
 {
@@ -121,20 +127,28 @@ input:disabled
     border: 5px solid black;
 }
 
-@media (max-width: 600px)
+@media (max-width: 600px) and (orientation: portrait)
 {
     #wrapHeader
     {
-        width: 100%;
+        width: 200%;
+            padding: 1rem;
     }
-    #titleh1
+    #wrapMain
     {
-        font-size: 1rem;
-        line-height: 1rem;
-        text-align: center;
-        background-color: green;
-        color: white;
-        font-family: TitleFont, sans-serif;
+        width: 200%;
     }
 }
 
+@media (max-width: 600px) and (orientation: landscape)
+{
+    #wrapHeader
+    {
+        width: 220%;
+            padding: 1rem;
+    }
+    #wrapMain
+    {
+        width: 200%;
+    }
+}
