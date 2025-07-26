@@ -11,39 +11,51 @@
     <script type="module" src="./script.js"></script>
 </head>
 <body>
+
+    
     <header>
+    <div id="wrapHeader">
         <h1 id="titleh1">MONOPOLY DELUXE</h1>
         <div class="navBar">
             <div class="navItem playerNameDiv">
-                <label id="playerNameLabel" class="topLabel"></label>
+                <label id="playerNameLabel" class="headerLabel"></label>
             </div>
-            <div class="navItem sameLine">
-                <label for="changeName" class="topLabel">Change name here:</label>
+            <div class="navItem changeNameLine">
+                <label for="changeName" class="headerLabel">Change name here:</label>
                 <input 
                 id="changeName" 
                 type="text" 
                 placeholder="change name here!"
                 >
-                <button id="changeNameBttn" type="button">Change</button>
+                <button id="changeNameBttn" type="button" disabled>Change</button>
             </div>
         </div>
+    </div>
     </header>
-
+    
     <main>
+    <div id="wrapMain">
         <div id="roomSelection">
-            <h2 id="roomSelectionh2">Room Selection</h2>
-            <canvas id="roomSelectionCanvas"></canvas>
+            <h2 class="sectionTitle">Room Selection</h2>
+            <div class="canvasContainer"> 
+                <canvas id="roomSelectionCanvas"></canvas>
+            </div>
         </div>
         <div id="waitingRoom">
-            <canvas id="waitingRoomCanvas"></canvas>    
+            <div class="canvasContainer">
+                <canvas id="waitingRoomCanvas"></canvas>    
+            </div>
         </div>
         <div id="gameBoard">
-            <canvas id="gameBoardCanvas"></canvas>
+            <div class="canvasContainer">
+                <canvas id="gameBoardCanvas"></canvas>
+            </div>
         </div>
+    </div>
     </main>
-
     <foot>
     
     </foot>
+
 </body>
 </html>

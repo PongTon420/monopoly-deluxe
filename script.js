@@ -75,11 +75,16 @@ async function initPlayer()
 
 async function changeName() {
     console.log("change button pressed");
+
     changeNameButton.disabled = true;
     nameInput.disabled = true;
+
+    const clickSound = new Audio("sound/AmongUsIndian.mp3");
+    clickSound.play();
+
     let newName = nameInput.value.trim();
     if (newName === "")
-        newName = playerName;
+        newName = playerName; //Chắc ăn là ko điền khoảng trống dc
     
     const { error } = await supabase
     .from('Players')
@@ -88,16 +93,22 @@ async function changeName() {
 
     if (error)
         console.error('Failed to update name:', error);
-
     
-    playerNameLabel.innerHTML = `<span class="label-text">Player's name:</span> <span class="player-namejs">${newName}</span>`;
+    playerNameLabel.innerHTML = `Player's name: <span class="player-namejs">${newName}</span>`;
     localStorage.setItem('player_name', newName);
     playerName = newName;
+
     nameInput.value = null;
-    changeNameButton.disabled = false;
+    changeNameButton.disabled = true;
     nameInput.disabled = false;
     console.log("Successfully changed name to:", newName);
 };
+
+function disableChangeButton(a)
+{
+    if (nameInput.value.trim() !== "") changeNameButton.disabled = false;
+    else changeNameButton.disabled = true;
+};   
 
 function showScreen(id) {
     document.getElementById('roomSelection').style.display = 'none';
@@ -117,5 +128,6 @@ function SelectRoom()
 //run shit here:
 initPlayer();
 showScreen(showScreenId);
+nameInput.addEventListener('input', disableChangeButton);
 changeNameButton.addEventListener('click', changeName);
 window.addEventListener('load', SelectRoom);
