@@ -6,7 +6,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const nameInput = document.getElementById('changeName');
 const changeNameButton = document.getElementById('changeNameBttn');
-const resetButton = document.getElementById('resetButton')
+const syncButton = document.getElementById('syncButton')
 const playerNameLabel = document.getElementById('playerNameLabel');
 
 let showScreenId = 'roomSelection';
@@ -99,7 +99,7 @@ async function idExist()
     } else {
     console.log("Player not found.");
     const OOSsmall = document.getElementById('outOfSync');
-    OOSsmall.textContent = `You are out of sync! Please press Reset button`;
+    OOSsmall.textContent = `You are out of sync! Please press Sync button`;
     resetButton.disabled = false;
     }
 }
@@ -115,11 +115,99 @@ nameInput.addEventListener('input', () =>
 });
 
 changeNameButton.addEventListener('click', changeName);
-resetButton.addEventListener('click', () => {localStorage.clear(); 
+syncButton.addEventListener('click', () => {localStorage.clear(); 
     location.reload(); console.log("clear");});
 
 //Room Selection section:
+const roomName = document.getElementById('roomName');
+const roomId = document.getElementById('roomId');
+const roomList = document.getElementById('roomList');
 
-//Waiting Room section:
+async function removeRoomList(room)
+{
+    const { error } = await supabase
+    .from('Rooms')
+    .delete()
+    .eq('room_id', room.id);
+    const roomDiv = document.getElementById(`room-${room.id}`);
+    if (roomDiv) roomDiv.remove();
+}
+async function createRoom()
+{
+    console.log("createRoomButton pressed")
+    const roomNameInput = document.getElementById('roomName');
+    const roomIdInput = document.getElementById('roomId');
+    let roomName = roomNameInput.value.trim();
+    let roomId = roomIdInput.value.trim();
+    let hostId = playerId;
+    const { error } = await supabase
+    .from('Rooms')
+    .insert([
+        { room_id: roomId, room_name: roomName, host_id: playerId },
+    ])
+    .select();
+    if (error) console.log("create room error");
+
+    const { error: room_players_error } = await supabase
+    .from('room_players')
+    .insert([
+        { room_id: roomId, player_id: hostId, is_host: true },
+    ])
+    .select();
+}
+async function updateRoomList() {
+    const roomListDiv = document.getElementById('roomList');
+    roomListDiv.innerHTML = '';
+
+    const { data: rooms, error: roomError } = await supabase
+        .from('Rooms')
+        .select('room_id, room_name, status');
+    if (roomError) {
+        console.error('Failed to fetch rooms:', roomError);
+        return;
+    }
+
+    const { data: roomPlayers, error: rpError } = await supabase
+    .from('room_players')
+    .select('room_id');
+
+    if (rpError) {
+        console.error('Failed to fetch room_players:', rpError);
+        return;
+    }
+
+    const playerCounts = {};
+    roomPlayers.forEach(rp => {
+        playerCounts[rp.room_id] = (playerCounts[rp.room_id] || 0) + 1;
+    });
+
+     rooms.forEach(room => {
+        const row = document.createElement('div');
+        row.className = 'roomRow';
+        row.id = `room-${room.room_id}`;
+
+        const nameCol = document.createElement('div');
+        nameCol.className = 'roomListCol';
+        nameCol.textContent = room.room_name;
+
+        const playerCol = document.createElement('div');
+        playerCol.className = 'roomListCol';
+        playerCol.textContent = playerCounts[room.room_id] || 0;
+
+        const statusCol = document.createElement('div');
+        statusCol.className = 'roomListCol';
+        statusCol.textContent = room.status;
+
+        row.appendChild(nameCol);
+        row.appendChild(playerCol);
+        row.appendChild(statusCol);
+
+        roomListDiv.appendChild(row);
+    });
+}
+
+const createButton = document.getElementById('createRoomBtn');
+createButton.addEventListener('click', createRoom);
+window.onload = updateRoomList;
 
 //Game board section:

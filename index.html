@@ -28,7 +28,7 @@
                 placeholder="Change name here!"
                 >
                 <button id="changeNameBttn" type="button" disabled>Change</button>
-                <button id="resetButton" type="button" disabled>Reset</button>
+                <button id="syncButton" type="button" disabled>Sync</button>
                 <small id="outOfSync"></small>
             </div>
         </div>
@@ -40,17 +40,25 @@
         <div id="roomSelection">
             <h2 class="sectionTitle">Room Selection</h2>
             <div class="selectRoom"> 
-                <button id="createRoomBtn">Create Room</button>
+                <form>
+                    <label for="roomName">Room's Name:</label>
+                    <input id="roomName" type ="text">
+                    <label for="roomId">Room id:</label>
+                    <input id="roomId" type = "number">
+                    <button type= "button" id ="createRoomBtn">Create Room</button>
+                </form>
                 <input type="text" id="roomCodeInput" placeholder="Enter Room Code" />
                 <button id="joinRoomBtn">Join Room</button>
-                <button id="refreshBtn">Refresh</button>
+                <button id="leaveBtn" disabled>Leave</button>
+                <button id="leaveBtn" disabled>Play</button>
             </div>
-            <div id="roomList">
-                  <div class="roomHeader">
-                    <div class="column">Room Name</div>
-                    <div class="column">Players</div>
-                    <div class="column">Current Turn</div>
+            <div id="roomListbox">
+                <div class="roomHeader">
+                    <div class="roomListCol">Room Name</div>
+                    <div class="roomListCol">Players</div>
+                    <div class="roomListCol">Status</div>
                 </div>
+                <div id="roomList"></div>
             </div>
         </div>
         <div id="waitingRoom">

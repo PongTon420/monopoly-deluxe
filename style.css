@@ -108,15 +108,21 @@ input:disabled
     background-color: aqua;
     padding: 1rem;
 }
-.roomHeader
+.roomHeader, .roomRow
 {
     display: flex;
     justify-content: space-between;
     padding: 8px;
     border-bottom: 1px solid #aaa;
 }
+.roomListCol
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
 
-#roomList
+#roomListbox
 {
     display: block;
     width: 50rem;
