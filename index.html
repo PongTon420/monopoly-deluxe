@@ -49,8 +49,8 @@
                 </form>
                 <input type="text" id="roomCodeInput" placeholder="Enter Room Code" />
                 <button id="joinRoomBtn">Join Room</button>
-                <button id="leaveBtn" disabled>Leave</button>
-                <button id="leaveBtn" disabled>Play</button>
+                <button class="hiddenBtn" id="leaveBtn" disabled>Leave</button>
+                <button class="hiddenBtn" id="leaveBtn" disabled>Play</button>
             </div>
             <div id="roomListbox">
                 <div class="roomHeader">
@@ -59,17 +59,6 @@
                     <div class="roomListCol">Status</div>
                 </div>
                 <div id="roomList"></div>
-            </div>
-        </div>
-        <div id="waitingRoom">
-            <h2 class="sectionTitle">Waiting Room</h2>
-            <div class="canvasContainer">
-                <canvas id="waitingRoomCanvas"></canvas>    
-            </div>
-        </div>
-        <div id="gameBoard">
-            <div class="canvasContainer">
-                <canvas id="gameBoardCanvas"></canvas>
             </div>
         </div>
     </div>

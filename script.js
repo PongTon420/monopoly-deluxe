@@ -9,7 +9,6 @@ const changeNameButton = document.getElementById('changeNameBttn');
 const syncButton = document.getElementById('syncButton')
 const playerNameLabel = document.getElementById('playerNameLabel');
 
-let showScreenId = 'roomSelection';
 let playerId = localStorage.getItem('player_id');
 let playerName = localStorage.getItem('player_name');
 
@@ -78,11 +77,24 @@ async function changeName()
     nameInput.disabled = false;
     console.log("Successfully changed name to:", newName);
 };
-function showScreen(id) {
-    document.getElementById('roomSelection').style.display = 'none';
-    document.getElementById('waitingRoom').style.display = 'none';
-    document.getElementById('gameBoard').style.display = 'none';
-    document.getElementById(id).style.display = 'block';
+
+function hideButton(className)
+{
+    console.log(className);
+    const buttons = document.getElementsByClassName('hiddenBtn');
+    for (let i = 0; i < buttons.length; i++) 
+    {
+        buttons[i].style.display = 'none';
+    }
+};
+
+function showButton(className)
+{
+    const buttons = document.getElementsByClassName(className);
+    for (let i = 0; i < buttons.length; i++) 
+    {
+        buttons[i].style.display = 'block';
+    }
 };
 
 async function idExist() 
@@ -107,7 +119,6 @@ async function idExist()
 //run shit here:
 initPlayer();
 idExist();
-showScreen(showScreenId);
 
 nameInput.addEventListener('input', () => 
 {   if (nameInput.value.trim() !== "") changeNameButton.disabled = false;
@@ -205,7 +216,21 @@ async function updateRoomList() {
         roomListDiv.appendChild(row);
     });
 }
+async function checkPlayerInRoom()
+{
+console.log("check_player");
+const { data, error } = await supabase
+  .from("room_players")
+  .select("*")
+  .eq("player_id", playerId); // replace with your actual variable
+if (data.length > 0)
+    {
+        showButton('hiddenBtn');
+    }
+else hideButton('hiddenBtn');
+}
 
+checkPlayerInRoom();
 const createButton = document.getElementById('createRoomBtn');
 createButton.addEventListener('click', createRoom);
 window.onload = updateRoomList;
