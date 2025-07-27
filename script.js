@@ -130,9 +130,9 @@ syncButton.addEventListener('click', () => {localStorage.clear();
     location.reload(); console.log("clear");});
 
 //Room Selection section:
-const roomName = document.getElementById('roomName');
-const roomId = document.getElementById('roomId');
-const roomList = document.getElementById('roomList');
+const createButton = document.getElementById('createRoomBtn');
+createButton.addEventListener('click', createRoom);
+checkPlayerInRoom();
 
 async function removeRoomList(room)
 {
@@ -146,6 +146,7 @@ async function removeRoomList(room)
 async function createRoom()
 {
     console.log("createRoomButton pressed")
+    document.getElementById('createRoomBtn').disabled = true;
     const roomNameInput = document.getElementById('roomName');
     const roomIdInput = document.getElementById('roomId');
     let roomName = roomNameInput.value.trim();
@@ -165,7 +166,9 @@ async function createRoom()
         { room_id: roomId, player_id: hostId, is_host: true },
     ])
     .select();
+    location.reload()
 }
+
 async function updateRoomList() {
     const roomListDiv = document.getElementById('roomList');
     roomListDiv.innerHTML = '';
@@ -216,6 +219,7 @@ async function updateRoomList() {
         roomListDiv.appendChild(row);
     });
 }
+
 async function checkPlayerInRoom()
 {
 console.log("check_player");
@@ -226,13 +230,13 @@ const { data, error } = await supabase
 if (data.length > 0)
     {
         showButton('hiddenBtn');
+        //document.getElementById('createRoomBtn').disabled = true; //Bật này lên khi ko còn test nx
+        document.getElementById('leaveBtn').disabled = false;
+        document.getElementById('playBtn').disabled = false;
     }
 else hideButton('hiddenBtn');
 }
 
-checkPlayerInRoom();
-const createButton = document.getElementById('createRoomBtn');
-createButton.addEventListener('click', createRoom);
 window.onload = updateRoomList;
 
 //Game board section:
