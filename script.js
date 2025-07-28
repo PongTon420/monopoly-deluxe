@@ -55,7 +55,7 @@ async function changeName()
     changeNameButton.disabled = true;
     nameInput.disabled = true;
 
-    const clickSound = new Audio("sound/AmongUsIndian.mp3");
+    const clickSound = new Audio("sound/kongchi.mp3");
     clickSound.play();
 
     let newName = nameInput.value.trim();
@@ -79,7 +79,6 @@ async function changeName()
     nameInput.disabled = false;
     console.log("Successfully changed name to:", newName);
 };
-
 function hideButton(className)
 {
     console.log(className);
@@ -89,7 +88,6 @@ function hideButton(className)
         buttons[i].style.display = 'none';
     }
 };
-
 function showButton(className)
 {
     const buttons = document.getElementsByClassName(className);
@@ -98,7 +96,6 @@ function showButton(className)
         buttons[i].style.display = 'block';
     }
 };
-
 async function idExist() 
 {
     playerId = localStorage.getItem('player_id');
@@ -147,9 +144,12 @@ async function leaveRoom()
     .eq('player_id', playerId);
     await deleteRoomWhenNoPlayers();
     await waitDelete();
+    const clickSound = new Audio("sound/leave.mp3");
+    clickSound.play();
+    clickSound.addEventListener('ended', () => {
     location.reload();
+    });
 };
-
 async function deleteRoomWhenNoPlayers()
 {
     const { data: playersInRoom, error: fetchError } = await supabase
@@ -205,10 +205,13 @@ async function createRoom()
             { room_id: roomId, player_id: hostId, is_host: true },
         ])
         .select();
+        const clickSound = new Audio("sound/sinsaminling.mp3");
+        clickSound.play();
+        clickSound.addEventListener('ended', () => {
         location.reload();
+        });
     }
 };
-
 async function updateRoomList() {
     const roomListDiv = document.getElementById('roomList');
     roomListDiv.innerHTML = '';
@@ -259,7 +262,6 @@ async function updateRoomList() {
         roomListDiv.appendChild(row);
     });
 };
-
 async function checkPlayerInRoom()
 {
 console.log("check_player");
