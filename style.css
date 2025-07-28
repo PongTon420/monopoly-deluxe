@@ -44,6 +44,15 @@ input:disabled
     opacity: 1;
 }
 
+.inputBox
+{
+    border: 1px solid black; 
+    padding: 0.6rem;
+    padding-left: 10px;
+    border-radius: 3px;
+    height: 2.6dvh;
+    vertical-align: middle;
+}
 .navBar
 {
     background-color: aqua;
@@ -133,7 +142,7 @@ input:disabled
     background-color: lightgoldenrodyellow;
     overflow-y: auto;  
 }
-#roomCodeInput
+.inputBox
 {
     border: 1px solid black; 
     padding: 0.6rem;

@@ -11,6 +11,8 @@ const playerNameLabel = document.getElementById('playerNameLabel');
 
 let playerId = localStorage.getItem('player_id');
 let playerName = localStorage.getItem('player_name');
+let roomId = localStorage.getItem('room_id');
+console.log(playerId, playerName, roomId);
 
 async function createNewGuest()
 {
@@ -112,9 +114,9 @@ async function idExist()
     console.log("Player not found.");
     const OOSsmall = document.getElementById('outOfSync');
     OOSsmall.textContent = `You are out of sync! Please press Sync button`;
-    resetButton.disabled = false;
+    syncButton.disabled = false;
     }
-}
+};
 
 //run shit here:
 initPlayer();
@@ -134,40 +136,78 @@ const createButton = document.getElementById('createRoomBtn');
 createButton.addEventListener('click', createRoom);
 checkPlayerInRoom();
 
-async function removeRoomList(room)
+const leaveButton = document.getElementById('leaveBtn');
+leaveButton.addEventListener('click', leaveRoom);
+
+async function leaveRoom()
 {
-    const { error } = await supabase
-    .from('Rooms')
+    const { error} = await supabase
+    .from('room_players')
     .delete()
-    .eq('room_id', room.id);
-    const roomDiv = document.getElementById(`room-${room.id}`);
-    if (roomDiv) roomDiv.remove();
-}
+    .eq('player_id', playerId);
+    await deleteRoomWhenNoPlayers();
+    await waitDelete();
+    location.reload();
+};
+
+async function deleteRoomWhenNoPlayers()
+{
+    const { data: playersInRoom, error: fetchError } = await supabase
+    .from('room_players')
+    .select('player_id')
+    .eq('room_id', roomId);
+
+    if (playersInRoom.length === 0)
+    {
+        const {error} = await supabase
+        .from('Rooms')
+        .delete()
+        .eq('room_id', roomId);
+        console.log("delete room", roomId);
+    }
+};
+async function waitDelete() 
+{
+    localStorage.removeItem('room_id');
+};
 async function createRoom()
 {
     console.log("createRoomButton pressed")
-    document.getElementById('createRoomBtn').disabled = true;
-    const roomNameInput = document.getElementById('roomName');
-    const roomIdInput = document.getElementById('roomId');
-    let roomName = roomNameInput.value.trim();
-    let roomId = roomIdInput.value.trim();
-    let hostId = playerId;
-    const { error } = await supabase
-    .from('Rooms')
-    .insert([
-        { room_id: roomId, room_name: roomName, host_id: playerId },
-    ])
-    .select();
-    if (error) console.log("create room error");
+    const { data, error1 } = await supabase
+    .from("room_players")
+    .select("*")
+    .eq("player_id", playerId);
+    if(data.length > 0) 
+    {
+        console.log("alert cấm tạo phòng");
+        document.getElementById('createRoomBtn').disabled = true;
+        alert("Thoát phòng rồi hả tạo cái mới!!!")
+    }
+    else
+    {
+        const roomNameInput = document.getElementById('roomName');
+        const roomIdInput = document.getElementById('roomId');
+        let roomName = roomNameInput.value.trim();
+        roomId = roomIdInput.value.trim();
+        localStorage.setItem('room_id', roomId);
+        let hostId = playerId;
+        const { error } = await supabase
+        .from('Rooms')
+        .insert([
+            { room_id: roomId, room_name: roomName, host_id: playerId },
+        ])
+        .select();
+        if (error) console.log("create room error");
 
-    const { error: room_players_error } = await supabase
-    .from('room_players')
-    .insert([
-        { room_id: roomId, player_id: hostId, is_host: true },
-    ])
-    .select();
-    location.reload()
-}
+        const { error: room_players_error } = await supabase
+        .from('room_players')
+        .insert([
+            { room_id: roomId, player_id: hostId, is_host: true },
+        ])
+        .select();
+        location.reload();
+    }
+};
 
 async function updateRoomList() {
     const roomListDiv = document.getElementById('roomList');
@@ -218,7 +258,7 @@ async function updateRoomList() {
 
         roomListDiv.appendChild(row);
     });
-}
+};
 
 async function checkPlayerInRoom()
 {
@@ -226,16 +266,15 @@ console.log("check_player");
 const { data, error } = await supabase
   .from("room_players")
   .select("*")
-  .eq("player_id", playerId); // replace with your actual variable
+  .eq("player_id", playerId);
 if (data.length > 0)
     {
         showButton('hiddenBtn');
-        //document.getElementById('createRoomBtn').disabled = true; //Bật này lên khi ko còn test nx
         document.getElementById('leaveBtn').disabled = false;
         document.getElementById('playBtn').disabled = false;
     }
 else hideButton('hiddenBtn');
-}
+};
 
 window.onload = updateRoomList;
 
