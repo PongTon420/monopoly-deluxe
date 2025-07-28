@@ -71,7 +71,8 @@ input:disabled
 .headerLabel
 {
     font-size: 1.5rem;
-    font-family: childFont, sans-serif;
+    font-family: TitleFont, sans-serif;
+    font-weight: bold;
 }
 .changeNameLine
 {
@@ -82,6 +83,7 @@ input:disabled
 .player-namejs
 {
     font-family: coolName, sans-serif;
+    font-weight: lighter;
     font-size: 1.5625rem;
     background-color: wheat;
     padding: min(2px, 8%) 10px min(2px, 8%) 5px;
@@ -104,7 +106,7 @@ input:disabled
     -webkit-text-stroke: 0.5px red;
     color: brown;
 }
-.selectRoom
+.RoomNav
 {
     display: flex;
     justify-content: center;
@@ -126,9 +128,40 @@ input:disabled
 }
 .roomListCol
 {
-    display: flex;
-    justify-content: space-between;
     padding: 8px;
+}
+.roomName {
+    width: 33%;
+    text-align: left;
+}
+.playerCount {
+    width: 33%;
+    text-align: center;
+}
+.status {
+    width: 33%;
+    text-align: right;
+}
+.roomRowFont
+{
+    font-family: childFont, sans-serif;
+}
+.roomHeaderFont
+{
+    font-family: TitleFont, sans-serif;
+    font-weight: bold;
+    color: brown;
+}
+.roomLabelFont
+{
+    font-family: TitleFont, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.roomInput
+{
+    margin-left: 0.4rem;
+    margin-right: 1.5rem;
 }
 
 #roomListbox
@@ -136,7 +169,7 @@ input:disabled
     display: block;
     width: 50rem;
     height: 20rem;
-    border: 4px solid black;
+    border: 1px solid blue;
     margin: 1.5rem auto 0 auto;
     padding: 1rem;
     background-color: lightgoldenrodyellow;

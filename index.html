@@ -39,24 +39,24 @@
     <div id="wrapMain">
         <div id="roomSelection">
             <h2 class="sectionTitle">Room Selection</h2>
-            <div class="selectRoom"> 
+            <div class="RoomNav"> 
                 <form>
-                    <label for="roomName">Room's Name:</label>
-                    <input id="roomName" type ="text" class="inputBox" placeholder="e.g. pangsai">
-                    <label for="roomId">Room id:</label>
-                    <input id="roomId" type = "number" class="inputBox" placeholder="e.g. 123">
+                    <label for="roomName" class="roomLabelFont">Room Name:</label>
+                    <input id="roomName" type ="text" class="inputBox roomInput" placeholder="e.g. pangsai">
+                    <label for="roomId" class="roomLabelFont">Room ID:</label>
+                    <input id="roomId" type = "number" class="inputBox roomInput" placeholder="Number Only">
                     <button type= "button" id ="createRoomBtn">Create Room</button>
                 </form>
-                <input type="text" id="roomCodeInput" placeholder="Enter Room Code" class="inputBox"/>
+                <input type="text" id="roomCodeInput" placeholder="Enter Room ID" class="inputBox"/>
                 <button id="joinRoomBtn">Join Room</button>
-                <button class="hiddenBtn" id="leaveBtn" disabled>Leave</button>
-                <button class="hiddenBtn" id="playBtn" disabled>Play</button>
+                <button class="hiddenBtn" id="leaveBtn" disabled style="display: none;">Leave</button>
+                <button class="hiddenBtn" id="playBtn" disabled style="display: none;">Play</button>
             </div>
             <div id="roomListbox">
                 <div class="roomHeader">
-                    <div class="roomListCol">Room Name</div>
-                    <div class="roomListCol">Players</div>
-                    <div class="roomListCol">Status</div>
+                    <div class="roomListCol roomName roomHeaderFont">ROOM NAME</div>
+                    <div class="roomListCol playerCount roomHeaderFont">PLAYERS</div>
+                    <div class="roomListCol status roomHeaderFont">STATUS</div>
                 </div>
                 <div id="roomList"></div>
             </div>

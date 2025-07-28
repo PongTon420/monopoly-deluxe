@@ -79,15 +79,6 @@ async function changeName()
     nameInput.disabled = false;
     console.log("Successfully changed name to:", newName);
 };
-function hideButton(className)
-{
-    console.log(className);
-    const buttons = document.getElementsByClassName('hiddenBtn');
-    for (let i = 0; i < buttons.length; i++) 
-    {
-        buttons[i].style.display = 'none';
-    }
-};
 function showButton(className)
 {
     const buttons = document.getElementsByClassName(className);
@@ -126,7 +117,7 @@ nameInput.addEventListener('input', () =>
 
 changeNameButton.addEventListener('click', changeName);
 syncButton.addEventListener('click', () => {localStorage.clear(); 
-    location.reload(); console.log("clear");});
+    window.location.href = window.location.href; console.log("clear");});
 
 //Room Selection section:
 const createButton = document.getElementById('createRoomBtn');
@@ -138,6 +129,7 @@ leaveButton.addEventListener('click', leaveRoom);
 
 async function leaveRoom()
 {
+    document.getElementById('leaveBtn').disabled = true;
     const { error} = await supabase
     .from('room_players')
     .delete()
@@ -147,7 +139,7 @@ async function leaveRoom()
     const clickSound = new Audio("sound/leave.mp3");
     clickSound.play();
     clickSound.addEventListener('ended', () => {
-    location.reload();
+    window.location.href = window.location.href;
     });
 };
 async function deleteRoomWhenNoPlayers()
@@ -172,7 +164,27 @@ async function waitDelete()
 };
 async function createRoom()
 {
-    console.log("createRoomButton pressed")
+    console.log("createRoomButton pressed");
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    const roomNameInput = document.getElementById('roomName');
+    const roomIdInput = document.getElementById('roomId');
+    createRoomBtn.disabled = true;
+
+    const {data:Rooms} = await supabase
+    .from("Rooms")
+    .select("*")
+    for (let i = 0; i < Rooms.length; i++)
+    {
+        if (String(Rooms[i].room_id) === roomIdInput.value.trim())
+        {
+            console.log('chay vong lap', i);
+            alert('Room ID ' + roomIdInput.value.trim() + ' đã tồn tại.');
+            createRoomBtn.disabled = false;
+            roomIdInput.value = "";
+            return;
+        }
+    }
+
     const { data, error1 } = await supabase
     .from("room_players")
     .select("*")
@@ -180,13 +192,11 @@ async function createRoom()
     if(data.length > 0) 
     {
         console.log("alert cấm tạo phòng");
-        document.getElementById('createRoomBtn').disabled = true;
+        createRoomBtn.disabled = true;
         alert("Thoát phòng rồi hả tạo cái mới!!!")
     }
     else
     {
-        const roomNameInput = document.getElementById('roomName');
-        const roomIdInput = document.getElementById('roomId');
         let roomName = roomNameInput.value.trim();
         roomId = roomIdInput.value.trim();
         localStorage.setItem('room_id', roomId);
@@ -197,7 +207,12 @@ async function createRoom()
             { room_id: roomId, room_name: roomName, host_id: playerId },
         ])
         .select();
-        if (error) console.log("create room error");
+        if (error) {console.log("create room error");
+            alert('Điền Room ID = số, ví dụ: 123.');
+            createRoomBtn.disabled = false;
+            roomIdInput.value = "";
+            return;
+        }
 
         const { error: room_players_error } = await supabase
         .from('room_players')
@@ -208,9 +223,13 @@ async function createRoom()
         const clickSound = new Audio("sound/sinsaminling.mp3");
         clickSound.play();
         clickSound.addEventListener('ended', () => {
-        location.reload();
+        window.location.href = window.location.href;
         });
     }
+};
+async function joinRoom()
+{
+
 };
 async function updateRoomList() {
     const roomListDiv = document.getElementById('roomList');
@@ -244,15 +263,15 @@ async function updateRoomList() {
         row.id = `room-${room.room_id}`;
 
         const nameCol = document.createElement('div');
-        nameCol.className = 'roomListCol';
+        nameCol.className = 'roomListCol roomName roomRowFont';
         nameCol.textContent = room.room_name;
 
         const playerCol = document.createElement('div');
-        playerCol.className = 'roomListCol';
-        playerCol.textContent = playerCounts[room.room_id] || 0;
+        playerCol.className = 'roomListCol playerCount roomRowFont';
+        playerCol.textContent = `${playerCounts[room.room_id] || 0}/4`;
 
         const statusCol = document.createElement('div');
-        statusCol.className = 'roomListCol';
+        statusCol.className = 'roomListCol status roomRowFont';
         statusCol.textContent = room.status;
 
         row.appendChild(nameCol);
@@ -275,9 +294,6 @@ if (data.length > 0)
         document.getElementById('leaveBtn').disabled = false;
         document.getElementById('playBtn').disabled = false;
     }
-else hideButton('hiddenBtn');
 };
 
 window.onload = updateRoomList;
-
-//Game board section:
