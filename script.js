@@ -117,7 +117,7 @@ nameInput.addEventListener('input', () =>
 
 changeNameButton.addEventListener('click', changeName);
 syncButton.addEventListener('click', () => {localStorage.clear(); 
-    window.location.href = window.location.href; console.log("clear");});
+    window.location.href = window.location.href; console.log("sync");});
 
 //Room Selection section:
 const createButton = document.getElementById('createRoomBtn');
@@ -127,18 +127,24 @@ checkPlayerInRoom();
 const leaveButton = document.getElementById('leaveBtn');
 leaveButton.addEventListener('click', leaveRoom);
 
+const joinButton = document.getElementById('joinRoomBtn');
+joinButton.addEventListener('click', joinRoom);
+
+
 async function leaveRoom()
 {
-    document.getElementById('leaveBtn').disabled = true;
+    leaveButton.disabled = true;
     const { error} = await supabase
     .from('room_players')
     .delete()
     .eq('player_id', playerId);
+    if ( error ) console.log(error);
     await deleteRoomWhenNoPlayers();
     await waitDelete();
     const clickSound = new Audio("sound/leave.mp3");
     clickSound.play();
     clickSound.addEventListener('ended', () => {
+    localStorage.setItem('room_id', null);
     window.location.href = window.location.href;
     });
 };
@@ -148,6 +154,8 @@ async function deleteRoomWhenNoPlayers()
     .from('room_players')
     .select('player_id')
     .eq('room_id', roomId);
+
+    if (fetchError) console.log(fetchError);
 
     if (playersInRoom.length === 0)
     {
@@ -165,10 +173,9 @@ async function waitDelete()
 async function createRoom()
 {
     console.log("createRoomButton pressed");
-    const createRoomBtn = document.getElementById('createRoomBtn');
     const roomNameInput = document.getElementById('roomName');
     const roomIdInput = document.getElementById('roomId');
-    createRoomBtn.disabled = true;
+    createButton.disabled = true;
 
     const {data:Rooms} = await supabase
     .from("Rooms")
@@ -177,23 +184,23 @@ async function createRoom()
     {
         if (String(Rooms[i].room_id) === roomIdInput.value.trim())
         {
-            console.log('chay vong lap', i);
             alert('Room ID ' + roomIdInput.value.trim() + ' đã tồn tại.');
-            createRoomBtn.disabled = false;
+            createButton.disabled = false;
             roomIdInput.value = "";
             return;
         }
     }
 
-    const { data, error1 } = await supabase
+    const { data, error } = await supabase
     .from("room_players")
     .select("*")
     .eq("player_id", playerId);
     if(data.length > 0) 
     {
         console.log("alert cấm tạo phòng");
-        createRoomBtn.disabled = true;
-        alert("Thoát phòng rồi hả tạo cái mới!!!")
+        createButton.disabled = true;
+        alert("Thoát phòng rồi hả tạo cái mới!!!");
+        return;
     }
     else
     {
@@ -209,7 +216,7 @@ async function createRoom()
         .select();
         if (error) {console.log("create room error");
             alert('Điền Room ID = số, ví dụ: 123.');
-            createRoomBtn.disabled = false;
+            createButton.disabled = false;
             roomIdInput.value = "";
             return;
         }
@@ -229,9 +236,48 @@ async function createRoom()
 };
 async function joinRoom()
 {
+    console.log("Join button pressed");
+    const joinRoomIdInput = document.getElementById('roomJoinIDInput');
+    const joinRoomId = joinRoomIdInput.value.trim();
+    const { data: room_players, error: error} = await supabase
+    .from("room_players")
+    .select("*")
+    .eq("player_id", playerId);
 
+    if(room_players.length > 0) 
+    {
+        console.log("alert cấm join phòng");
+        joinButton.disabled = true;
+        alert("Thoát phòng rồi hả join!!!");
+        return;
+    }
+    else
+    {
+        const { error: room_players_error } = await supabase
+        .from('room_players')
+        .insert([
+            { room_id: joinRoomId, player_id: playerId, is_host: false },
+        ])
+        .select();
+        roomId = joinRoomId;
+        localStorage.setItem("room_id", roomId);
+        if ( room_players_error )
+            {
+                console.log(room_players_error);
+                console.log("alert join phòng không tồn tại");
+                alert("Phòng không tồn tại");
+                joinRoomIdInput.value = "";
+                return;
+            };
+        const clickSound = new Audio("sound/sinsaminling.mp3");
+        clickSound.play();
+        clickSound.addEventListener('ended', () => {
+        window.location.href = window.location.href;
+        });
+    }
 };
-async function updateRoomList() {
+async function updateRoomList() 
+{
     const roomListDiv = document.getElementById('roomList');
     roomListDiv.innerHTML = '';
 
