@@ -96,16 +96,6 @@ input:disabled
     align-items: center;
     min-height: 60vh;
 }
-.sectionTitle
-{
-    font-family: TitleFont, sans-serif;
-    text-align: center;
-    margin: 15px;
-    margin-bottom: -20px;
-    font-size: 2.5rem;
-    -webkit-text-stroke: 0.5px red;
-    color: brown;
-}
 .RoomNav
 {
     display: flex;
@@ -115,6 +105,7 @@ input:disabled
     flex-wrap: wrap;        
     width: 50rem;
     margin: 2rem auto 1rem auto;
+    margin-bottom: 2rem;
     border: 1px solid blue;
     background-color: aqua;
     padding: 1rem;
@@ -163,7 +154,17 @@ input:disabled
     margin-left: 0.4rem;
     margin-right: 1.5rem;
 }
+.roomNameAndId
+{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
+#roomIdDisplay
+{
+    font-family: ChildFont;
+    font-size: large;
+}
 #roomListbox
 {
     display: block;

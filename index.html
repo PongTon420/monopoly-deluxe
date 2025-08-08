@@ -36,9 +36,7 @@
     </header>
     
     <main>
-    <div id="wrapMain">
-        <div id="roomSelection">
-            <h2 class="sectionTitle">Room Selection</h2>
+        <div id="wrapMain">
             <div class="RoomNav"> 
                 <form>
                     <label for="roomName" class="roomLabelFont">Room Name:</label>
@@ -47,6 +45,7 @@
                     <input id="roomId" type = "number" class="inputBox roomInput" placeholder="Number Only">
                     <button type= "button" id ="createRoomBtn">Create Room</button>
                 </form>
+                <div id="roomIdDisplay"></div>
                 <input type="text" id="roomJoinIDInput" placeholder="Enter Room ID" class="inputBox"/>
                 <button id="joinRoomBtn">Join Room</button>
                 <button class="hiddenBtn" id="leaveBtn" disabled style="display: none;">Leave</button>
@@ -61,7 +60,6 @@
                 <div id="roomList"></div>
             </div>
         </div>
-    </div>
     </main>
     <foot>
     

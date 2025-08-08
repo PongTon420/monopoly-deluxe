@@ -276,6 +276,10 @@ async function joinRoom()
         });
     }
 };
+async function playGame() 
+{
+    
+};
 async function updateRoomList() 
 {
     const roomListDiv = document.getElementById('roomList');
@@ -326,6 +330,21 @@ async function updateRoomList()
 
         roomListDiv.appendChild(row);
     });
+    let { data: room_players, error: room_player_error } = await supabase
+    .from('room_players')
+    .select('room_id')
+    .eq('player_id', playerId);
+    let { data: Rooms, error: Rooms_error } = await supabase
+    .from ('Rooms')
+    .select('room_name')
+    .eq('room_id', room_players[0].room_id);
+
+    //console.log(room_players[0].room_id);
+    //console.log(Rooms[0].room_name);
+
+    const roomIdDisplay = document.getElementById('roomIdDisplay');
+    roomIdDisplay.innerHTML = `You're in room name: <span class="roomNameAndId">${Rooms[0].room_name}</span> and id: 
+    <span class="roomNameAndId">${room_players[0].room_id}</span>`;
 };
 async function checkPlayerInRoom()
 {
